@@ -1,4 +1,5 @@
-import { useFormik } from "formik";
+import { Formik } from "formik";
+
 
 const validate = (values) => {
   const errors = {};
@@ -16,40 +17,38 @@ const validate = (values) => {
 };
 
 function App() {
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      lastname: "",
-      email: "",
-    },
-    validate,
-    onSubmit: (values) => console.log(values),
-  });
-  return (
-    <form onSubmit={formik.handleSubmit}>
-      <label>Nombre</label>
-      <input {...formik.getFieldProps("name")} type="text" />
-      {formik.touched.name && formik.errors.name ? (
+   return (
+    <Formik
+    initialValues={{name:'',lastname:'',email:'',}}
+    validate={validate}
+    onSubmit={values => console.log(values)}
+    >
+    {formik => 
+        <form onSubmit={formik.handleSubmit}>
+        <label>Nombre</label>
+        <input {...formik.getFieldProps("name")} type="text" />
+        {formik.touched.name && formik.errors.name ? (
         <div>{formik.errors.name}</div>
-      ) : null}
-      <br />
+        ) : null}
+        <br />
 
-      <label>Apellido</label>
-      <input {...formik.getFieldProps("lastname")} type="text" />
+        <label>Apellido</label>
+        <input {...formik.getFieldProps("lastname")} type="text" />
 
-      {formik.touched.lastname && formik.errors.lastname ? (
+        {formik.touched.lastname && formik.errors.lastname ? (
         <div>{formik.errors.lastname}</div>
-      ) : null}
-      <br />
+        ) : null}
+        <br />
 
-      <label>Email</label>
-      <input {...formik.getFieldProps("email")} type="text" />
-      {formik.touched.email && formik.errors.email ? (
+        <label>Email</label>
+        <input {...formik.getFieldProps("email")} type="text" />
+        {formik.touched.email && formik.errors.email ? (
         <div>{formik.errors.email}</div>
-      ) : null}
-      <br />
-      <button type="submit">Enviar</button>
-    </form>
+        ) : null}
+        <br />
+        <button type="submit">Enviar</button>
+    </form>}
+    </Formik>
   );
 }
 
