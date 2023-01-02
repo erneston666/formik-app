@@ -1,4 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import TextInput from "./components/TextInput";
+import Checkbox from "./components/Checkbox";
+import Select from "./components/Select";
+import Radio from "./components/Radio";
 
 const validate = (values) => {
   const errors = {};
@@ -12,32 +16,40 @@ const validate = (values) => {
   } else if (values.lastname.length < 5) {
     errors.lastname = "El apellido es muy corto";
   }
+if(!values.radio){
+    errors.radio  = 'Requerido'
+}
+
   return errors;
 };
 
 function App() {
   return (
     <Formik
-      initialValues={{ name: "", lastname: "", email: "" }}
+      initialValues={{ name: "", lastname: "", email: "" , chancho:"", radio:''}}
       validate={validate}
       onSubmit={(values) => console.log(values)}
     >
       <Form>
-        <label>Nombre</label>
-        <Field name="name" type="text" />
-        <ErrorMessage name="name" />
+        <TextInput name="name" label="Nombre" />
         <br />
 
-        <label>Apellido</label>
-        <Field name="lastname" type="text" />
-        <ErrorMessage name="lastname" />
+        <TextInput name="lastname" label="Apellido" />
         <br />
 
-        <label>Email</label>
-        <Field name="email" type="text" />
-        <ErrorMessage name="email" />
-
-        <br />
+        <TextInput name="email" label="Correo" />
+        <Select label= 'tipo de chancho' name="chancho">
+            <option value=""> Seleccione Chancho</option>
+            <option value="Felipe"> Felipe</option>
+            <option value="chanchitofeliz"> Chanchito Feliz</option>
+            <option value="chanchitotriste"> Chanchito Triste</option>
+        </Select>
+        <Checkbox name="accept">Aceptar terminos y condiciones</Checkbox>
+        <Radio name="radio" value="chanchito1" label="chanchito1" />
+        <Radio name="radio" value="chanchito2" label="chanchito2" />
+        <Radio name="radio" value="chanchito3" label="chanchito3" />
+        <ErrorMessage name="radio" />       
+         <br />
         <button type="submit">Enviar</button>
       </Form>
     </Formik>
